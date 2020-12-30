@@ -31,7 +31,7 @@ const particlesOptions = {
 const initialState= {
   
     input:'',
-    imagURL:'',
+    imageUrl:'',
     box:{},
     route:'signin',
     isSignedIn:false,
@@ -59,6 +59,7 @@ class App extends Component {
       }})
     }
     calculateFaceLocation = (data) => {
+      console.log("got calc face location param as", data);
       const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
      
       const image=document.getElementById('inputimage');
@@ -81,39 +82,74 @@ class App extends Component {
     this.setState({input:event.target.value});
     console.log(event.target.value);
   }
-  onButtonSubmit = () => {
-    console.log('click');
-    this.setState({imagURL:this.state.input});
-    // app.models
-    // .predict(Clarifai.FACE_DETECT_MODEL, 
-    //   this.state.input) /*MOVED TO BACKEND */
-     fetch('http://localhost:3002/imageurl', {
-       method:'post',
-       headers: {'Content-Type': 'application/json'},
-       body:JSON.stringify({
-         input:  this.state.input
-       })
-     })
-    .then(response => response.json())
-    .then(response => {
-    if(response){
-      fetch('/image',{
-        method:'put',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        id:this.state.user.id
+//   onButtonSubmit = () => {
+//     console.log('click');
+//     this.setState({imagURL:this.state.input});
+//     // app.models
+//     // .predict(Clarifai.FACE_DETECT_MODEL, 
+//     //   this.state.input) /*MOVED TO BACKEND */
+//      fetch('http://localhost:3000/imageurl', {
+//        method:'post',
+//        headers: {'Content-Type': 'application/json'},
+//        body:JSON.stringify({
+//          input:  this.state.input
+//        })
+//      })
+//     .then(response => response.json())
+//     .then(response => {
+//     if(response){
+//       fetch('http://localhost:3000/image',{
+//         method:'put',
+//       headers:{'Content-Type':'application/json'},
+//       body:JSON.stringify({
+//         id:this.state.user.id
+//       })
+//     })
+//     .then(response => response.json())
+//     .then(count => {
+//       this.setState(Object.assign(this.state.user,{ entries:count }))
+//     })
+//     .catch(console.log)
+//   }
+//     this.displayFaceBox(this.calculateFaceLocation(response))
+//   .catch(err => console.log(err));
+ 
+//   })
+// }
+
+onButtonSubmit = () => {
+  console.log("entering onsubmit button");
+  this.setState({imageUrl: this.state.input});
+    fetch('http://localhost:3000/imageurl', {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        input: this.state.input
       })
     })
     .then(response => response.json())
-    .then(count => {
-      this.setState(Object.assign(this.state.user,{ entries:count }))
+    .then(response => {
+      console.log(" response from imgurl route is",response);
+      if (response) {
+        fetch('http://localhost:3000/image', {
+          method: 'put',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            id: this.state.user.id
+          })
+        })
+          .then(response => response.json())
+          .then(count => {
+            console.log(" response from img db route is",response);
+            this.setState(Object.assign(this.state.user, { entries: count}))
+          })
+          .catch(console.log)
+
+      }
+      console.log("calling dsiplayfacebox, calc face location with param",response);
+      this.displayFaceBox(this.calculateFaceLocation(response))
     })
-    .catch(console.log)
-  }
-    this.displayFaceBox(this.calculateFaceLocation(response))
-  .catch(err => console.log(err));
- 
-  })
+    .catch(err => console.log(err));
 }
 
   onRouteChange = (route) => {
@@ -126,11 +162,11 @@ class App extends Component {
     this.setState({route: route});
   }
   render(){
-    const{ isSignedIn,imagURL,route,box }=this.state;
+    const{ isSignedIn,imageUrl,route,box }=this.state;
     return (
       <div className="App">
         <Particles  className='particles' params={particlesOptions}/>
-        <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange}/>
+        <Navigation isSignedIn={isSignedIn} onRouteChange ={this.onRouteChange}/>
 
         {  route === 'home'
           ? <div>
@@ -143,7 +179,7 @@ class App extends Component {
            onInputChange={this.onInputChange} 
            onButtonSubmit={this.onButtonSubmit} 
            />
-           <FaceRecognition box={box} imageURL={imagURL}/> 
+           <FaceRecognition box={box} imageUrl={imageUrl}/> 
            </div>
           :(
             route === 'signin'
