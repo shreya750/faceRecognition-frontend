@@ -11,7 +11,7 @@ import ImageLinkForm from './components/imageLinkForm/imageLinkForm';
 import Rank from './components/rank/rank';
 import './App.css';
 
-  // Instantiate a new Clarifai app by passing in your API key.
+  // Instantiate a new Clarifai app by passing in your API key...
   // const app = new Clarifai.App({
   //  apiKey: 'c5b1472c37714a84861d590aa32eb6c1'
   // });
