@@ -120,7 +120,7 @@ class App extends Component {
 onButtonSubmit = () => {
   console.log("entering onsubmit button");
   this.setState({imageUrl: this.state.input});
-    fetch('http://localhost:3000/imageurl', {
+    fetch('https://sleepy-crag-53183.herokuapp.com/imageurl', {
       method: 'post',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -131,7 +131,7 @@ onButtonSubmit = () => {
     .then(response => {
       console.log(" response from imgurl route is",response);
       if (response) {
-        fetch('http://localhost:3000/image', {
+        fetch('https://sleepy-crag-53183.herokuapp.com/image', {
           method: 'put',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({
