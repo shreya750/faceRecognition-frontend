@@ -6,8 +6,7 @@
 ## FrontEnd - 
 * ### React
 * ### JSX
-* ### HTML
 * ### CSS
 * ### JavaScript
-* ### Bootstrap
+
 
