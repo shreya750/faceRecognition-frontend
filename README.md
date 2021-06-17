@@ -10,7 +10,15 @@
 * ### JavaScript
 
 # Sample Images
+* ### Sign In Page
+![Signin Page Sample Image](signin.png)
+* ### Register Page
+![Register Page Sample Image](register.png)
 * ### Home Page
-* 
+![Home Page Sample Image](homePage.png)
+* ### Image URL Input
+![Image URL Sample Image](imageURLInput.png)
+* ### Face Detection Page
+![Face Detection Page Sample Image](faceDetection.png)
 
 
