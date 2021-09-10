@@ -73,7 +73,7 @@ class App extends Component {
         bottomRow: height - (clarifaiFace.bottom_row  *height)
       }
     }
-//vineet is manipulative
+
     displayFaceBox = (box) => {
       console.log("creating box around face",box);
       this.setState({box:box});
